@@ -6,13 +6,18 @@ export class CreateTransactionController {
   }
 
   handle(request, response) {
-    const { title, type, category, amount } = request.body;
+    const {
+      title,
+      type,
+      category,
+      amount
+    } = request.body;
 
     const transaction = this.createTransactionUseCase.execute({
-        title,
-        type,
-        category,
-        amount
+      title,
+      type,
+      category,
+      amount
     });
 
     response.statusCode = 201;
