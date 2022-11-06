@@ -5,7 +5,7 @@ export class CreateTransactionController {
     this.createTransactionUseCase = new CreateTransactionUseCase();
   }
 
-  handle(request, response) {
+  async handle(request, response) {
     const {
       title,
       type,
@@ -13,7 +13,7 @@ export class CreateTransactionController {
       amount
     } = request.body;
 
-    const transaction = this.createTransactionUseCase.execute({
+    const transaction = await this.createTransactionUseCase.execute({
       title,
       type,
       category,

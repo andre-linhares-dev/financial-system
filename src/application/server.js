@@ -1,7 +1,9 @@
 import express from "express";
-import { AppException } from "./errors/AppExceptions.js";
+import { AppException } from "./errors/AppException.js";
 import routes from "./routes.js";
-import "express-async-errors";
+import "express-async-errors"
+
+
 
 const app = express();
 
@@ -9,10 +11,10 @@ app.use(express.json());
 app.use(routes);
 
 app.use((error, request, response, next) => {
-    if(error instanceof AppException) {
-        return response.status(error.statusCode).json({
-            message: error.message,
-        });
+    if (error instanceof AppException) {
+      return response.status(error.statusCode).json({
+        message: error.message,
+      });
     };
 
     return response.status(500).json({

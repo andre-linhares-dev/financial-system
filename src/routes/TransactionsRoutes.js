@@ -1,11 +1,11 @@
 import Router from "express";
 
-const transactionsRoutes = Router();
-
 import { createTransactionController } from "../modules/transactions/usecases/CreateTransaction/index.js";
 import { listTransactionController } from "../modules/transactions/usecases/ListTransaction/index.js";
 import { updateTransactionController } from "../modules/transactions/usecases/UpdateTransaction/index.js"
 import { deleteTransactionController } from "../modules/transactions/usecases/DeleteTransaction/index.js"
+
+const transactionsRoutes = Router();
 
 // Rota de criação de transação
 transactionsRoutes.post("/transactions", (request, response) => {

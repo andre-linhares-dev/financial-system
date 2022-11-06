@@ -13,7 +13,6 @@ const routes = Router();
 // DELETE - Deleção da informação
 
 routes.use(transactionsRoutes);
-// routes.use("/todos", todosRoutes);
 
 export default routes;
 

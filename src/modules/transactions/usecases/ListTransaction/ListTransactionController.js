@@ -8,6 +8,8 @@ export class ListTransactionController {
   async handle(request, response) {
     const transactions = await this.listTransactionUseCase.execute();
 
+    response.statusCode = 200;
+    
     return response.json(transactions);
   }
 }

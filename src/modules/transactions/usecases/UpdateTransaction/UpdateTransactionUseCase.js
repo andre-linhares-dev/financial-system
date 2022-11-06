@@ -1,27 +1,41 @@
 import { TransactionRepository } from "../../repositories/TransactionRepository.js";
-import { AppException } from "../../../../application/errors/AppExceptions.js"
+import { prisma } from "../../../../database/PrismaClient.js";
+import { AppException } from "../../../../application/errors/AppException.js"
 
 export class UpdateTransactionUseCase { 
-    constructor() {
-        this.transactionRepository = TransactionRepository.getInstance();
-    }
+    // constructor() {
+    //     this.transactionRepository = TransactionRepository.getInstance();
+    // }
 
-    execute({id, title, type, category, amount}) {
-        const transaction = this.transactionRepository.findById(id);
+   async execute({id, title, type, category, amount}) {
+
+        await prisma.$connect();
+
+        const transaction = await prisma.transactions.findUnique({
+            where: {
+                id,
+            },
+        });
 
         if(!transaction) {
-            throw new AppException(404, "Transaction not found");
+            throw new AppException(404, "Transaction not found")
         }
 
-        const updatedTransaction = this.transactionRepository.updateById({
-            id,
+        const updatedTransaction = await prisma.transactions.update({
+            where: {
+                id,
+            },
+            data: {
             title,
             type,
             category,
             amount,
-        })
-        
+            },
+        });
+
+
+            await prisma.$disconnect();
 
     return updatedTransaction;
-    }
-}
+    };
+};

@@ -1,16 +1,35 @@
+import { prisma } from "../../../../database/PrismaClient.js";
 import { TransactionRepository } from "../../repositories/TransactionRepository.js";
-
-// import { AppException } from "../../../../application/errors/AppException.js";
+import { AppException } from "../../../../application/errors/AppException.js";
 
 export class DeleteTransactionUseCase {
-  constructor() {
-    this.transactionRepository = TransactionRepository.getInstance();
-  }
+  // constructor() {
+  //   this.transactionRepository = TransactionRepository.getInstance();
+  // }
 
-  execute(id) {
+  async execute(id) {
+    await prisma.$connect();
  
-    // console.log(this.transactionRepository.deleteById(id));
+    const transaction = await prisma.transactions.findUnique({
+      where: {
+        id,
+      },
+    });
 
-    return this.transactionRepository.deleteById(id);
+    if (!transaction ) {
+      throw new AppException(404, "Transaction not found!" );
+    };
+
+    const deleteTransaction = await prisma.transactions.delete({
+      where: {
+        id,
+      },
+    })
+
+
+
+    await prisma.$disconnect();
+
+    return deleteTransaction;
   }
 }
